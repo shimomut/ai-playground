@@ -1,0 +1,7 @@
+# The default PyPI torch wheel is a CUDA build on Linux and bundles the
+# headers/tooling needed to compile extensions against it.
+torch>=2.4
+numpy>=1.26
+# torch.utils.cpp_extension uses ninja to build extensions; it is not pulled
+# in by torch itself, so we require it explicitly.
+ninja>=1.11

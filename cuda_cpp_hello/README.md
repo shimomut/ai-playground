@@ -1,4 +1,4 @@
-# cuda_hello_cpp
+# cuda_cpp_hello
 
 Minimal example of calling a CUDA kernel from a plain C++ host program.
 
@@ -15,8 +15,14 @@ as possible:
 
 The kernel itself is a textbook elementwise vector add: `c[i] = a[i] + b[i]`.
 
-A sibling project for a Python-driven main program will live in its own
-top-level directory (e.g. `cuda_hello_python/`).
+This is the most explicit project in the CUDA "hello" family. Sibling
+experiments move up the stack toward how custom kernels are actually used
+in AI work:
+
+- [`triton_hello`](../triton_hello) — the same compute written as a Triton
+  kernel and called on PyTorch tensors.
+- [`torch_cuda_extension_hello`](../torch_cuda_extension_hello) — the same
+  CUDA C++ kernel wrapped as a PyTorch CUDA extension.
 
 ## Prerequisites
 
@@ -57,7 +63,7 @@ OK
 ## Layout
 
 ```
-cuda_hello_cpp/
+cuda_cpp_hello/
 ├── Makefile
 ├── README.md
 ├── .gitignore

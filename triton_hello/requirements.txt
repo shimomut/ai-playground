@@ -1,0 +1,6 @@
+# torch ships the matching triton as a dependency on Linux, so we don't pin
+# triton separately. The default PyPI torch wheel is a CUDA build on Linux.
+# numpy is optional for torch itself but silences a startup warning and is
+# handy for interop.
+torch>=2.4
+numpy>=1.26
