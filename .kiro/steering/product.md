@@ -14,6 +14,15 @@ This repository (`ai-playground`) is a collection of independent AI/LLM learning
 - Each project is **self-contained**: it does not import code from sibling projects and does not share build artifacts with them.
 - The repository root holds only cross-cutting files (e.g., top-level `README.md`, this steering directory). Avoid adding shared source code or shared dependencies at the root.
 
+## Environment isolation
+
+Every project must run in an isolated environment. Choose one of:
+
+- **Python venv** — preferred for pure Python experiments. Create the venv inside the project directory (e.g., `./.venv`) and add it to the project's `.gitignore`. Use the latest Python interpreter available on `PATH` (resolve via `python3 --version`, or pick the highest `python3.X` found on `PATH`) unless the project explicitly pins an older version for compatibility.
+- **Docker** — preferred when the experiment needs system-level dependencies, GPU/CUDA stacks, specific OS libraries, or reproducible images for cluster deployment. Provide a `Dockerfile` in the project directory.
+
+Do not install Python packages into the system or user-global site-packages, and do not rely on a Conda/global interpreter shared across projects. If a project needs both (e.g., a venv for tooling and Docker for runtime), document that in its README.
+
 ## Typical project contents
 
 Most projects include some subset of:
