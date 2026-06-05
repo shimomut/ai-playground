@@ -28,6 +28,27 @@ __global__ void vector_add_kernel(const float* a, const float* b, float* c, int 
     }
 }
 
+// Demonstrates device-side printf. Every thread that reaches a printf runs
+// it, so a real launch can flood stdout; here we guard on the global index
+// to print from just the first few threads. Note also that output ordering
+// between threads is not guaranteed, even though each individual printf call
+// is atomic.
+__global__ void printf_demo_kernel() {
+    const int idx = blockIdx.x * blockDim.x + threadIdx.x;
+
+    // Print from the first 4 threads only to keep the output short.
+    if (idx < 4) {
+        printf("hello from global thread %d (block %d, thread %d)\n",
+               idx, blockIdx.x, threadIdx.x);
+    }
+
+    // Have a single thread print the launch geometry as well.
+    if (idx == 0) {
+        printf("launch geometry: gridDim.x=%d, blockDim.x=%d\n",
+               gridDim.x, blockDim.x);
+    }
+}
+
 }  // namespace
 
 void launch_vector_add(const float* a, const float* b, float* c, int n) {
@@ -56,4 +77,15 @@ void launch_vector_add(const float* a, const float* b, float* c, int n) {
     cudaFree(d_a);
     cudaFree(d_b);
     cudaFree(d_c);
+}
+
+void launch_printf_demo() {
+    // Two blocks of four threads = 8 threads total.
+    printf_demo_kernel<<<2, 4>>>();
+    check(cudaGetLastError(), "printf_demo kernel launch");
+
+    // Device printf output is buffered and only flushed to the host stdout at
+    // synchronization points (here, the explicit sync). Without this, the
+    // program could exit before any output appears.
+    check(cudaDeviceSynchronize(), "cudaDeviceSynchronize(printf_demo)");
 }

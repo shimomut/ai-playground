@@ -22,6 +22,12 @@ int main() {
 
     launch_vector_add(a.data(), b.data(), c.data(), n);
 
+    // Demonstrate device-side printf from within a kernel. Output is flushed
+    // by the cudaDeviceSynchronize() inside launch_printf_demo().
+    std::printf("\n-- device printf demo --\n");
+    launch_printf_demo();
+    std::printf("-- end printf demo --\n\n");
+
     // Spot-check a few elements and validate the full result.
     int errors = 0;
     for (int i = 0; i < n; ++i) {

@@ -9,3 +9,9 @@
 //
 // Computes c[i] = a[i] + b[i] for i in [0, n) on the GPU.
 void launch_vector_add(const float* a, const float* b, float* c, int n);
+
+// Launches a tiny kernel that calls printf() from device code to show how
+// per-thread output works. Prints from the first few threads only so the
+// output stays readable. Synchronizes internally so the output is flushed
+// before the call returns.
+void launch_printf_demo();
