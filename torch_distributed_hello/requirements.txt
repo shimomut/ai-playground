@@ -1,0 +1,5 @@
+# torch provides torch.distributed, the nccl/gloo backends, torchrun, and DDP.
+# The default PyPI torch wheel is a CUDA build on Linux and bundles a matching
+# NCCL, so nothing else is needed for the GPU path.
+torch>=2.4
+numpy>=1.26
